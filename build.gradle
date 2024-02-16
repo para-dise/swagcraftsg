@@ -1,0 +1,41 @@
+plugins {
+    id 'java'
+    id "com.github.johnrengelman.shadow" version "7.1.0"
+}
+
+group 'me.paradise'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    implementation group: 'org.apache.commons', name: 'commons-collections4', version: '4.4'
+    implementation group: 'net.minestom', name: 'minestom-snapshots', version: '7320437640'
+    //implementation 'com.github.Minestom.Minestom:Minestom:2cdb3911b0'
+    implementation 'com.zaxxer:HikariCP:5.0.1'
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.30'
+    //implementation 'com.github.Bloepiloepi:MinestomPvP:35e5661'
+    implementation 'com.github.JasperTheMinecraftDev:MinestomPvP:aa49b69'
+    implementation 'commons-io:commons-io:2.11.0'
+
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
+
+    implementation "net.kyori:adventure-text-minimessage:4.12.0"
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'me.paradise.swagcraftsg.SwagCraftSG',
+                "Multi-Release": true
+    }
+}

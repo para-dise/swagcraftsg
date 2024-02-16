@@ -1,0 +1,9 @@
+{
+  "loot": {
+    "1": ["minecraft:cooked_cod", "minecraft:cooked_mutton", "minecraft:cooked_porkchop", "minecraft:cooked_beef", "minecraft:stone_sword"],
+    "2": ["minecraft:stone_pickaxe", "minecraft:stone_axe", "minecraft:leather_helmet", "minecraft:leather_chestplate", "minecraft:leather_leggings", "minecraft:leather_boots"],
+    "3": ["minecraft:iron_axe", "minecraft:iron_sword", "minecraft:iron_boots", "minecraft:iron_helmet"],
+    "4": ["minecraft:golden_sword", "minecraft:golden_axe", "minecraft:golden_pickaxe", "minecraft:iron_leggings", "minecraft:iron_chestplate"],
+    "5": ["minecraft:diamond_pickaxe", "minecraft:diamond_sword", "minecraft:diamond_axe", "minecraft:diamond_boots", "minecraft:diamond_chestplate", "minecraft:diamond_helmet", "minecraft:diamond_leggings"]
+  }
+}

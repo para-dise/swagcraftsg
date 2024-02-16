@@ -1,0 +1,16 @@
+{
+  "games": [
+    {
+      "name": "san_andreas",
+      "url": "https://link.storjshare.io/s/jv2hnlwfvu3gsusln32dlmv4p62a/swagcraft/san_andreas.zip?download=1",
+      "spawnPoints": [
+        {
+          "x": 2510,
+          "y": 73,
+          "z": 1658
+        }
+      ]
+    }
+  ],
+  "lobbies": []
+}

@@ -1,0 +1,46 @@
+{
+  "1": [
+    {
+      "material": "minecraft:chainmail_helmet",
+      "price": 10
+    },
+    {
+      "material": "minecraft:iron_helmet",
+      "price": 20
+    },
+    {
+      "material": "minecraft:golden_helmet",
+      "price": 30
+    },
+    {
+      "material": "minecraft:diamond_helmet",
+      "price": 40
+    },
+    {
+      "material": "minecraft:air",
+      "price": 0
+    },
+    {
+      "material": "minecraft:air",
+      "price": 0
+    },
+    {
+      "material": "minecraft:air",
+      "price": 0
+    },
+    {
+      "material": "minecraft:snowball",
+      "price": 16
+    },
+    {
+      "material": "minecraft:cooked_porkchop",
+      "price": 15,
+      "amount": 2
+    }
+  ],
+  "2": [],
+  "3": [],
+  "4": [],
+  "5": [],
+  "6": []
+}
