@@ -5,7 +5,6 @@ import me.paradise.swagcraftsg.commands.CommandManager;
 import me.paradise.swagcraftsg.map.SwagCraftMap;
 import me.paradise.swagcraftsg.match.GamePhase;
 import me.paradise.swagcraftsg.match.Match;
-import me.paradise.swagcraftsg.match.MatchStarter;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.entity.GameMode;
 import net.minestom.server.entity.Player;
@@ -13,7 +12,6 @@ import net.minestom.server.event.GlobalEventHandler;
 import net.minestom.server.event.player.AsyncPlayerConfigurationEvent;
 import net.minestom.server.instance.*;
 import net.minestom.server.instance.block.Block;
-import net.minestom.server.coordinate.Pos;
 
 public class SwagCraftSG {
 

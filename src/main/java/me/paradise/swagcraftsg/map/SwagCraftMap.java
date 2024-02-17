@@ -14,6 +14,8 @@ import net.minestom.server.MinecraftServer;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.instance.AnvilLoader;
 import net.minestom.server.instance.Instance;
+import net.minestom.server.utils.NamespaceID;
+import net.minestom.server.world.DimensionType;
 import org.apache.commons.io.IOUtils;
 
 public class SwagCraftMap {
@@ -92,7 +94,14 @@ public class SwagCraftMap {
             DownloadUtil.unzip(map.toString(), mapFolder.toString());
         }
 
+        DimensionType fullbright = DimensionType.builder(NamespaceID.from("swagcraft:void"))
+                .ambientLight(2.0f)
+                .build();
+
+        MinecraftServer.getDimensionTypeManager().addDimension(fullbright);
+
         return MinecraftServer.getInstanceManager().createInstanceContainer(
+                fullbright,
                 new AnvilLoader(
                     "maps/" + game.getName()
                 )
