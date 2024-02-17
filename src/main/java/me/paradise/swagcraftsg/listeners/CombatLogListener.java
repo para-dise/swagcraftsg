@@ -9,6 +9,8 @@ import net.minestom.server.MinecraftServer;
 import net.minestom.server.entity.Player;
 import net.minestom.server.event.Event;
 import net.minestom.server.event.EventNode;
+import net.minestom.server.network.packet.server.play.EntityAnimationPacket;
+import net.minestom.server.network.packet.server.play.HitAnimationPacket;
 import net.minestom.server.network.packet.server.play.SoundEffectPacket;
 import net.minestom.server.sound.SoundEvent;
 
@@ -53,6 +55,11 @@ public class CombatLogListener {
 
             Player target = (Player) event.getHitEntity();
             Player attacker = (Player) event.getEntity().getShooter();
+
+            // Show hurt animation
+            target.sendPacketToViewersAndSelf(new HitAnimationPacket(
+                    target.getEntityId(), attacker.getPosition().yaw()
+            ));
 
             combatLogManager.addLog(target, attacker);
         });
