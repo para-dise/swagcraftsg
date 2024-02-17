@@ -33,13 +33,17 @@ public class DisguiseUtil {
 
     private void spawnPlayerMarker(EntityType entityType, Player trackedPlayer) {
         if(entityType.equals(EntityType.BAT)) {
-            EntityCreature entity = new BatmanBat();
+            EntityCreature entity = new BatmanBat(trackedPlayer);
             entity.setInstance(trackedPlayer.getInstance(), trackedPlayer.getPosition().add(0, 0.5, 0));
             entity.setBoundingBox(trackedPlayer.getBoundingBox());
+            entity.setHealth(999999999);
             entity.spawn();
 
             EventNode<Event> disguised = EventNode.all(trackedPlayer.getUsername() + "-disguise");
             disguised.addListener(PlayerMoveEvent.class, event -> {
+                if(entity.isRemoved() || entity.getInstance() == null) {
+                    return;
+                }
                 entity.teleport(event.getNewPosition().add(0, 1.5, 0));
             });
 

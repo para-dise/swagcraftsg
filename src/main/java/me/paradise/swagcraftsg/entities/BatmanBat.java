@@ -1,22 +1,16 @@
 package me.paradise.swagcraftsg.entities;
 
+import lombok.Getter;
 import net.minestom.server.entity.EntityCreature;
 import net.minestom.server.entity.EntityType;
-import net.minestom.server.entity.ai.EntityAIGroupBuilder;
-import net.minestom.server.entity.ai.goal.RandomLookAroundGoal;
+import net.minestom.server.entity.Player;
 
 public class BatmanBat extends EntityCreature {
+    @Getter private Player owner;
 
-    public BatmanBat() {
+    public BatmanBat(Player owner) {
         super(EntityType.BAT);
-        addAIGroup(
-                new EntityAIGroupBuilder()
-                        .addGoalSelector(new RandomLookAroundGoal(this, 20))
-                        .build()
-        );
-    }
 
-    public String getEntityPlayer() {
-        return "owo";
+        this.owner = owner;
     }
 }
