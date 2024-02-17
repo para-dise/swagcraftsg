@@ -10,6 +10,7 @@ import me.paradise.swagcraftsg.listeners.GameWinListener;
 import me.paradise.swagcraftsg.listeners.GlobalDeathListener;
 import me.paradise.swagcraftsg.listeners.PlayerUseChestListener;
 import me.paradise.swagcraftsg.listeners.PreGameStartDamageListener;
+import me.paradise.swagcraftsg.listeners.vanilla.BlockInteractListener;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.entity.Player;
 import net.minestom.server.entity.fakeplayer.FakePlayer;
@@ -74,6 +75,7 @@ public class Match {
     public void registerListeners() {
         new GlobalDeathListener();
         new GameWinListener();
+        new BlockInteractListener();
     }
 
     public void refreshCommands() {
