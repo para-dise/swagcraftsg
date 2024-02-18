@@ -11,7 +11,7 @@ import java.util.Set;
 
 public class MatchInvincibilityTimer {
 
-    private int timeLeft = 31;
+    public static int REMAINING_INVINCIBILITY_TIME = 31;
     private Set<Integer> announceTimes = Set.of(30, 15, 10, 5, 4, 3, 2, 1);
     private Match gameMatch;
 
@@ -22,15 +22,15 @@ public class MatchInvincibilityTimer {
     public void startTimer() {
         Scheduler scheduler = MinecraftServer.getSchedulerManager();
         scheduler.submitTask(() -> {
-            timeLeft--;
+            REMAINING_INVINCIBILITY_TIME--;
 
-            if(announceTimes.contains(timeLeft)) {
+            if(announceTimes.contains(REMAINING_INVINCIBILITY_TIME)) {
                 for(Player player : MinecraftServer.getConnectionManager().getOnlinePlayers()) {
-                    player.sendMessage(Component.text("Invincibility wears off in " + timeLeft + " seconds!", NamedTextColor.RED));
+                    player.sendMessage(Component.text("Invincibility wears off in " + REMAINING_INVINCIBILITY_TIME + " seconds!", NamedTextColor.RED));
                 }
             }
 
-            if(timeLeft == 0) {
+            if(REMAINING_INVINCIBILITY_TIME == 0) {
 
                 for(Player player : MinecraftServer.getConnectionManager().getOnlinePlayers()) {
                     player.sendMessage(Component.text("Invincibility has worn off!", NamedTextColor.RED));
