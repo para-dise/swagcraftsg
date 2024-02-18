@@ -3,6 +3,8 @@ package me.paradise.swagcraftsg.kits.kit_impls;
 import io.github.bloepiloepi.pvp.events.ProjectileHitEvent;
 import me.paradise.swagcraftsg.kits.KitChooser;
 import me.paradise.swagcraftsg.kits.SwagCraftKit;
+import me.paradise.swagcraftsg.match.GamePhase;
+import me.paradise.swagcraftsg.match.Match;
 import me.paradise.swagcraftsg.utils.ExplosionUtil;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.coordinate.Pos;
@@ -43,6 +45,10 @@ public class SCArcherImpl implements SwagCraftPlayableKit {
         System.out.println("registered scarcher global node");
         scarcherGlobalNode.addListener(ProjectileHitEvent.ProjectileBlockHitEvent.class, event -> {
             if(!(event.getEntity().getShooter() instanceof Player)) {
+                return;
+            }
+
+            if(!Match.getGamePhase().equals(GamePhase.INGAME)) {
                 return;
             }
 

@@ -7,6 +7,7 @@ import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.coordinate.Point;
+import net.minestom.server.entity.GameMode;
 import net.minestom.server.entity.Player;
 import net.minestom.server.event.GlobalEventHandler;
 import net.minestom.server.event.inventory.InventoryCloseEvent;
@@ -53,6 +54,9 @@ public class ChestManager {
     }
 
     public void openChest(Point chestPoint, Player player) {
+        if(!player.getGameMode().equals(GameMode.SURVIVAL)) {
+            return;
+        }
         Sound openChestSound = Sound.sound(Key.key("block.chest.open"), Sound.Source.BLOCK, 5f, 1f);
         player.playSound(openChestSound);
 
