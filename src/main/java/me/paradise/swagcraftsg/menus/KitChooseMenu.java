@@ -63,7 +63,7 @@ public class KitChooseMenu {
             if(success) {
                 player.sendMessage(Component.text("Now using kit ", NamedTextColor.AQUA).decoration(TextDecoration.ITALIC, false).append(clickedItem.getDisplayName())); // TODO: Add !
                 player.closeInventory();
-                player.setDisplayName(clickedItem.getDisplayName().append(Component.text(" ", NamedTextColor.WHITE)).append(Component.text(player.getUsername(), NamedTextColor.GRAY).decoration(TextDecoration.ITALIC, false)));
+                player.setDisplayName(clickedItem.getDisplayName().append(Component.text(" ", NamedTextColor.WHITE)).append(Component.text(player.getUsername(), NamedTextColor.RED).decoration(TextDecoration.BOLD, false)));
             } else {
                 player.sendMessage(Component.text("You can't use that kit.", NamedTextColor.RED));
             }
