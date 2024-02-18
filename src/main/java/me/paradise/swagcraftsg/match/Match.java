@@ -44,6 +44,8 @@ public class Match {
                 new PlayerUseChestListener();
                 CommandManager.registerCommand(new ShopCommand());
                 refreshCommands();
+
+                new BlockInteractListener();
             }
             case INGAME -> {
                 gamePhase = GamePhase.INGAME;
@@ -75,7 +77,6 @@ public class Match {
     public void registerListeners() {
         new GlobalDeathListener();
         new GameWinListener();
-        new BlockInteractListener();
     }
 
     public void refreshCommands() {
