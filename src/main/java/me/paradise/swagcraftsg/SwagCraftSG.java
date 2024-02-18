@@ -1,6 +1,7 @@
 package me.paradise.swagcraftsg;
 
 import io.github.bloepiloepi.pvp.PvpExtension;
+import io.github.bloepiloepi.pvp.explosion.PvpExplosionSupplier;
 import me.paradise.swagcraftsg.commands.CommandManager;
 import me.paradise.swagcraftsg.map.SwagCraftMap;
 import me.paradise.swagcraftsg.match.GamePhase;
@@ -23,6 +24,7 @@ public class SwagCraftSG {
         // Create Map Manager
         SwagCraftMap mapManager = new SwagCraftMap();
         Instance lobby = mapManager.getMapInstance();
+        lobby.setExplosionSupplier(PvpExplosionSupplier.INSTANCE);
 
         // Create the instance
         InstanceContainer instanceContainer = instanceManager.createInstanceContainer();
