@@ -1,6 +1,9 @@
 package me.paradise.swagcraftsg.listeners;
 
+import io.github.bloepiloepi.pvp.events.EntityPreDeathEvent;
+import io.github.bloepiloepi.pvp.events.FinalDamageEvent;
 import me.paradise.swagcraftsg.events.GameWinEvent;
+import me.paradise.swagcraftsg.feature.DeathMessage;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
@@ -27,10 +30,25 @@ public class GlobalDeathListener {
 
     private HashMap<UUID, Inventory> cachedinventories = new HashMap<>();
     private Tag<UUID> deathTag = Tag.UUID("death");
+    private DeathMessage deathMessage = new DeathMessage();
 
     public GlobalDeathListener() {
         GlobalEventHandler globalEventHandler = MinecraftServer.getGlobalEventHandler();
+
         globalEventHandler.addListener(PlayerDeathEvent.class, event -> {
+            final Player p = event.getPlayer();
+
+            if(CombatLogListener.SIMPLE_COMBAT_LOG_MANAGER.hasLog(p)) {
+                Player killer = CombatLogListener.SIMPLE_COMBAT_LOG_MANAGER.getCombatant(p);
+                if(killer != null) {
+                    event.setChatMessage(DeathMessage.getDeathMessageWithWeapon(p, killer, killer.getInventory().getItemInMainHand()));
+                } else {
+                    event.setChatMessage(Component.text(p.getUsername() + " was killed by an unknown entity"));
+                }
+            } else {
+                event.setChatMessage(Component.text(p.getUsername() + " was killed by an unknown entity"));
+            }
+
             // Create chest with player's items
             String username = PlainTextComponentSerializer.plainText().serialize(event.getPlayer().getName());
             Inventory inventory = new Inventory(InventoryType.CHEST_5_ROW, username + "'s Inventory");

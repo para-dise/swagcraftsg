@@ -28,7 +28,7 @@ public class CombatLogManager {
         this.clearOldLogs();
 
         for(CombatLogger logger : this.combatLoggers) {
-            if(logger.getCombatant1().equals(player.getUuid()) || logger.getCombatant2().equals(player.getUuid())) {
+            if(logger.getCombatant1().getUuid().equals(player.getUuid()) || logger.getCombatant2().getUuid().equals(player.getUuid())) {
                 return true;
             }
         }
@@ -37,9 +37,9 @@ public class CombatLogManager {
 
     public Player getCombatant(Player player) {
         for(CombatLogger logger : this.combatLoggers) {
-            if(logger.getCombatant1().equals(player.getUuid())) {
+            if(logger.getCombatant1().getUuid().equals(player.getUuid())) {
                 return MinecraftServer.getConnectionManager().getOnlinePlayerByUuid(logger.getCombatant2().getUuid());
-            } else if(logger.getCombatant2().equals(player.getUuid())) {
+            } else if(logger.getCombatant2().getUuid().equals(player.getUuid())) {
                 return MinecraftServer.getConnectionManager().getOnlinePlayerByUuid(logger.getCombatant1().getUuid());
             }
         }
