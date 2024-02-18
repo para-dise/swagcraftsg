@@ -6,16 +6,17 @@ import me.paradise.swagcraftsg.commands.CommandManager;
 import me.paradise.swagcraftsg.map.SwagCraftMap;
 import me.paradise.swagcraftsg.match.GamePhase;
 import me.paradise.swagcraftsg.match.Match;
+import me.paradise.swagcraftsg.scoreboard.ScoreboardDisplay;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.entity.GameMode;
 import net.minestom.server.entity.Player;
 import net.minestom.server.event.GlobalEventHandler;
 import net.minestom.server.event.player.AsyncPlayerConfigurationEvent;
+import net.minestom.server.event.player.PlayerSpawnEvent;
 import net.minestom.server.instance.*;
 import net.minestom.server.instance.block.Block;
 
 public class SwagCraftSG {
-
     public static void main(String[] args) {
         // Initialization
         MinecraftServer minecraftServer = MinecraftServer.init();
@@ -54,6 +55,13 @@ public class SwagCraftSG {
 
         // Start the server on port 25565
         minecraftServer.start("0.0.0.0", 25565);
+
+        // enable scoreboard
+        ScoreboardDisplay scoreboardDisplay = new ScoreboardDisplay();
+        globalEventHandler.addListener(PlayerSpawnEvent.class, event -> {
+            final Player player = event.getPlayer();
+            scoreboardDisplay.display(player);
+        });
     }
 
     public static boolean isDebugMode() {
