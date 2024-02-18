@@ -18,7 +18,7 @@ dependencies {
     implementation 'com.zaxxer:HikariCP:5.0.1'
     implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.30'
     //implementation 'com.github.Bloepiloepi:MinestomPvP:35e5661'
-    implementation 'com.github.JasperTheMinecraftDev:MinestomPvP:7c205a7'
+    implementation 'com.github.JasperTheMinecraftDev:MinestomPvP:8b8bd76'
     implementation 'commons-io:commons-io:2.11.0'
 
     compileOnly 'org.projectlombok:lombok:1.18.24'

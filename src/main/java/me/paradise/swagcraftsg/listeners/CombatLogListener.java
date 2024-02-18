@@ -30,23 +30,6 @@ public class CombatLogListener {
             Player target = (Player) event.getTarget();
             Player attacker = (Player) event.getEntity();
 
-            // Play hit sound as MinestomPvP does not
-            float pitch = (float) (Math.random() - Math.random()) * 0.2f + 1.0f;
-            long seed = HIT_SOUND_SEEDS.get((int) (Math.random() * HIT_SOUND_SEEDS.size()));
-
-            target.sendPacketToViewersAndSelf(new SoundEffectPacket(
-                    SoundEvent.ENTITY_PLAYER_HURT,
-                    null,
-                    null,
-                    Sound.Source.PLAYER,
-                    target.getPosition().blockX(),
-                    target.getPosition().blockY(),
-                    target.getPosition().blockZ(),
-                    1.0f,
-                    pitch,
-                    seed
-            ));
-
             combatLogManager.addLog(target, attacker);
         });
 
@@ -55,11 +38,6 @@ public class CombatLogListener {
 
             Player target = (Player) event.getHitEntity();
             Player attacker = (Player) event.getEntity().getShooter();
-
-            // Show hurt animation
-            target.sendPacketToViewersAndSelf(new HitAnimationPacket(
-                    target.getEntityId(), attacker.getPosition().yaw()
-            ));
 
             combatLogManager.addLog(target, attacker);
         });
