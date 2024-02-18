@@ -16,7 +16,7 @@ using YouTube videos and other resources.
 Theses are the kits that are currently available in the game:
 
 - Assassin ✅
-- SC-Archer ❌
+- SC-Archer 🚧
 - Mage ❌
 - Alchemist ✅
 - Zombie ❌
