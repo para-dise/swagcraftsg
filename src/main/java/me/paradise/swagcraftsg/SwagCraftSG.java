@@ -17,6 +17,8 @@ import net.minestom.server.instance.*;
 import net.minestom.server.instance.block.Block;
 
 public class SwagCraftSG {
+    public static Instance MAIN_INSTANCE;
+
     public static void main(String[] args) {
         // Initialization
         MinecraftServer minecraftServer = MinecraftServer.init();
@@ -26,6 +28,8 @@ public class SwagCraftSG {
         SwagCraftMap mapManager = new SwagCraftMap();
         Instance lobby = mapManager.getMapInstance();
         lobby.setExplosionSupplier(PvpExplosionSupplier.INSTANCE);
+
+        MAIN_INSTANCE = lobby; // Set the main instance
 
         // Create the instance
         InstanceContainer instanceContainer = instanceManager.createInstanceContainer();
@@ -41,7 +45,7 @@ public class SwagCraftSG {
                 player.setGameMode(GameMode.SPECTATOR);
             }
 
-            event.setSpawningInstance(lobby);
+            event.setSpawningInstance(MAIN_INSTANCE);
             //event.setSpawningInstance(instanceContainer);
             player.setRespawnPoint(mapManager.getSpawnPoint(player.getUuid()));
         });

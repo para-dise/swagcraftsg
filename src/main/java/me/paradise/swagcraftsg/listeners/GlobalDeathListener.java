@@ -1,35 +1,26 @@
 package me.paradise.swagcraftsg.listeners;
 
-import io.github.bloepiloepi.pvp.events.EntityPreDeathEvent;
-import io.github.bloepiloepi.pvp.events.FinalDamageEvent;
+import me.paradise.swagcraftsg.SwagCraftSG;
 import me.paradise.swagcraftsg.events.GameWinEvent;
 import me.paradise.swagcraftsg.feature.DeathMessage;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import net.minestom.server.MinecraftServer;
-import net.minestom.server.coordinate.Pos;
-import net.minestom.server.entity.*;
-import net.minestom.server.entity.metadata.other.ArmorStandMeta;
-import net.minestom.server.entity.metadata.other.FallingBlockMeta;
+import net.minestom.server.entity.GameMode;
+import net.minestom.server.entity.ItemEntity;
+import net.minestom.server.entity.Player;
 import net.minestom.server.event.GlobalEventHandler;
-import net.minestom.server.event.player.PlayerBlockInteractEvent;
+import net.minestom.server.event.item.PickupItemEvent;
 import net.minestom.server.event.player.PlayerDeathEvent;
-import net.minestom.server.event.player.PlayerEntityInteractEvent;
-import net.minestom.server.instance.block.Block;
 import net.minestom.server.inventory.Inventory;
 import net.minestom.server.inventory.InventoryType;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
-import net.minestom.server.tag.Tag;
+import net.minestom.server.utils.time.TimeUnit;
 
-import java.util.*;
+import java.util.Collection;
 
 public class GlobalDeathListener {
-
-    private HashMap<UUID, Inventory> cachedinventories = new HashMap<>();
-    private Tag<UUID> deathTag = Tag.UUID("death");
     private DeathMessage deathMessage = new DeathMessage();
 
     public GlobalDeathListener() {
@@ -49,27 +40,20 @@ public class GlobalDeathListener {
                 event.setChatMessage(Component.text(p.getUsername() + " was killed by an unknown entity"));
             }
 
-            // Create chest with player's items
-            String username = PlainTextComponentSerializer.plainText().serialize(event.getPlayer().getName());
-            Inventory inventory = new Inventory(InventoryType.CHEST_5_ROW, username + "'s Inventory");
-
-            event.getPlayer().getInventory().addItemStack(ItemStack.of(Material.DIAMOND));
-
+            // drop items
             for(ItemStack itemStack : event.getPlayer().getInventory().getItemStacks()) {
-                inventory.addItemStack(itemStack);
+                if(itemStack.isAir()) continue;
+
+                ItemEntity itemEntity = new ItemEntity(itemStack);
+                itemEntity.setPickupDelay(500, TimeUnit.MILLISECOND);
+                itemEntity.setInstance(SwagCraftSG.MAIN_INSTANCE);
+                itemEntity.spawn();
+                itemEntity.teleport(event.getPlayer().getPosition());
+
+                System.out.println("Dropped " + itemStack.getMaterial().name() + " at " + event.getPlayer().getPosition());
             }
 
-
-            // New fallingblock
-            Entity fallingBlock = new Entity(EntityType.FALLING_BLOCK);
-            FallingBlockMeta meta = (FallingBlockMeta) fallingBlock.getEntityMeta();
-            meta.setHasNoGravity(true);
-            meta.setBlock(Block.BEACON.withTag(deathTag, event.getPlayer().getUuid()));
-            meta.setInvisible(false);
-            fallingBlock.setInstance(event.getPlayer().getInstance(), event.getPlayer().getPosition().add(.5, 0, .5));
-            fallingBlock.spawn();
-
-            cachedinventories.put(event.getPlayer().getUuid(), inventory);
+            event.getPlayer().getInventory().clear();
 
             event.setDeathText(Component.empty());
             event.getPlayer().setGameMode(GameMode.SPECTATOR);
@@ -81,15 +65,16 @@ public class GlobalDeathListener {
             }
         });
 
-        globalEventHandler.addListener(PlayerEntityInteractEvent.class, event -> {
-           if(event.getTarget().getEntityType().equals(EntityType.FALLING_BLOCK) && event.getPlayer().getGameMode() == GameMode.SURVIVAL) {
-               FallingBlockMeta meta = (FallingBlockMeta) event.getTarget().getEntityMeta();
-               if(meta.getBlock().id() == Block.BEACON.id() && meta.getBlock().hasTag(deathTag)) {
-                   UUID uuid = meta.getBlock().getTag(deathTag);
-                   Inventory inventory = cachedinventories.get(uuid);
-                   event.getPlayer().openInventory(cachedinventories.get(uuid));
-               }
-           }
+        globalEventHandler.addListener(PickupItemEvent.class, event -> {
+            if(!(event.getEntity() instanceof Player)) return;
+            final Player player = (Player) event.getEntity();
+
+            if(!player.getGameMode().equals(GameMode.SURVIVAL)) {
+                event.setCancelled(true);
+                return;
+            }
+
+            ((Player) event.getEntity()).getInventory().addItemStack(event.getItemStack());
         });
     }
 }
