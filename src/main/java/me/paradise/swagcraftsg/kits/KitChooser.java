@@ -81,6 +81,7 @@ public class KitChooser {
         this.kitImpls.put(SwagCraftKit.HULK, new HulkImpl(this.kitAbilityCooldown));
         this.kitImpls.put(SwagCraftKit.IRONMAN, new IronmanImpl(this.kitAbilityCooldown));
         this.kitImpls.put(SwagCraftKit.SC_ARCHER, new SCArcherImpl());
+        this.kitImpls.put(SwagCraftKit.MAGE, new MageKitImpl());
 
         for(Player player : MinecraftServer.getConnectionManager().getOnlinePlayers()) {
             System.out.println("Initializing kit for player " + player.getUsername());
