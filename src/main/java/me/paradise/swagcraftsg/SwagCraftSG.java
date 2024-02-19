@@ -8,13 +8,18 @@ import me.paradise.swagcraftsg.match.GamePhase;
 import me.paradise.swagcraftsg.match.Match;
 import me.paradise.swagcraftsg.scoreboard.ScoreboardDisplay;
 import net.minestom.server.MinecraftServer;
+import net.minestom.server.coordinate.Pos;
 import net.minestom.server.entity.GameMode;
+import net.minestom.server.entity.ItemEntity;
 import net.minestom.server.entity.Player;
 import net.minestom.server.event.GlobalEventHandler;
 import net.minestom.server.event.player.AsyncPlayerConfigurationEvent;
 import net.minestom.server.event.player.PlayerSpawnEvent;
 import net.minestom.server.instance.*;
 import net.minestom.server.instance.block.Block;
+import net.minestom.server.item.ItemStack;
+import net.minestom.server.item.Material;
+import net.minestom.server.utils.time.TimeUnit;
 
 public class SwagCraftSG {
     public static Instance MAIN_INSTANCE;
@@ -65,6 +70,13 @@ public class SwagCraftSG {
         globalEventHandler.addListener(PlayerSpawnEvent.class, event -> {
             final Player player = event.getPlayer();
             scoreboardDisplay.display(player);
+
+            // fix a bug..?
+            ItemEntity itemEntity = new ItemEntity(ItemStack.of(Material.AIR));
+            itemEntity.setPickupDelay(0, TimeUnit.MILLISECOND);
+            itemEntity.setInstance(SwagCraftSG.MAIN_INSTANCE);
+            itemEntity.spawn();
+            itemEntity.teleport(player.getPosition());
         });
     }
 
