@@ -48,7 +48,7 @@ public class GlobalDeathListener {
                 itemEntity.setPickupDelay(500, TimeUnit.MILLISECOND);
                 itemEntity.setInstance(SwagCraftSG.MAIN_INSTANCE);
                 itemEntity.spawn();
-                itemEntity.teleport(event.getPlayer().getPosition());
+                itemEntity.teleport(event.getPlayer().getPosition().add(0, 1, 0));
 
                 System.out.println("Dropped " + itemStack.getMaterial().name() + " at " + event.getPlayer().getPosition());
             }

@@ -47,7 +47,7 @@ public class MatchStarter {
 
                     this.time = 61;
 
-                    if(SwagCraftSG.isDebugMode()) {
+                    if(SwagCraftSG.DEBUG) {
                         this.gameMatch.populateLobby(2);
                         this.time = 6;
                     }

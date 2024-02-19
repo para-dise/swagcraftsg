@@ -1,5 +1,7 @@
 package me.paradise.swagcraftsg.commands;
 
+import me.paradise.swagcraftsg.SwagCraftSG;
+import me.paradise.swagcraftsg.commands.cmds.DebugCommand;
 import me.paradise.swagcraftsg.commands.cmds.KitCommand;
 import me.paradise.swagcraftsg.events.GamePhaseChangeEvent;
 import me.paradise.swagcraftsg.match.GamePhase;
@@ -13,6 +15,11 @@ public class CommandManager {
     public CommandManager() {
         KitCommand kitCommand = new KitCommand();
         registerCommand(kitCommand);
+
+        if(SwagCraftSG.DEBUG) {
+            DebugCommand debugCommand = new DebugCommand();
+            registerCommand(debugCommand);
+        }
 
         GlobalEventHandler globalEventHandler = MinecraftServer.getGlobalEventHandler();
         globalEventHandler.addListener(GamePhaseChangeEvent.class, event -> {

@@ -23,6 +23,7 @@ import net.minestom.server.utils.time.TimeUnit;
 
 public class SwagCraftSG {
     public static Instance MAIN_INSTANCE;
+    public static boolean DEBUG = true;
 
     public static void main(String[] args) {
         // Initialization
@@ -78,9 +79,5 @@ public class SwagCraftSG {
             itemEntity.spawn();
             itemEntity.teleport(player.getPosition());
         });
-    }
-
-    public static boolean isDebugMode() {
-        return true;
     }
 }

@@ -33,7 +33,7 @@ public class KitChooser {
 
     public boolean chooseKit(Player player, SwagCraftKit kit) {
         System.out.println("Player " + player.getUsername() + " chose kit " + kit.toString());
-        if(player.hasPermission("swagcraftsg.kit." + kit.toString()) || SwagCraftSG.isDebugMode()) {
+        if(player.hasPermission("swagcraftsg.kit." + kit.toString()) || SwagCraftSG.DEBUG) {
             this.kitMap.put(player.getUuid(), kit);
             return true;
         }
