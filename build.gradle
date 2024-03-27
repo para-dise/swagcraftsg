@@ -9,16 +9,19 @@ version '1.0-SNAPSHOT'
 repositories {
     mavenCentral()
     maven { url 'https://jitpack.io' }
+    maven { url 'https://repo.aikar.co/content/groups/aikar/' }
 }
 
 dependencies {
     implementation group: 'org.apache.commons', name: 'commons-collections4', version: '4.4'
-    implementation group: 'net.minestom', name: 'minestom-snapshots', version: '7320437640'
+    implementation group: 'net.minestom', name: 'minestom-snapshots', version: 'dcbdad9a1b'
+    //implementation "net.kyori:adventure-api:4.16.0"
     //implementation 'com.github.Minestom.Minestom:Minestom:2cdb3911b0'
     implementation 'com.zaxxer:HikariCP:5.0.1'
     implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.30'
     //implementation 'com.github.Bloepiloepi:MinestomPvP:35e5661'
-    implementation 'com.github.JasperTheMinecraftDev:MinestomPvP:8b50c42'
+    //implementation 'com.github.JasperTheMinecraftDev:MinestomPvP:d339d13'
+    implementation 'com.github.emortaldev:MinestomPvP:62e90b78bd'
     implementation 'commons-io:commons-io:2.11.0'
 
     compileOnly 'org.projectlombok:lombok:1.18.24'
@@ -27,6 +30,11 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
 
     implementation "net.kyori:adventure-text-minimessage:4.12.0"
+    //implementation 'com.github.Archy-X:acf-minestom:0.5.0-SNAPSHOT'
+    //implementation 'com.github.AlexDicy:acf-minestom:v1.5-SNAPSHOT'
+    implementation files('libs/acf-minestom-0.5.0-SNAPSHOT-all.jar')
+
+    implementation group: 'dev.hollowcube', name: 'polar', version: '1.8.1'
 }
 
 test {

@@ -1,5 +1,6 @@
 package me.paradise.swagcraftsg.match;
 
+import me.paradise.swagcraftsg.utils.TimeSync;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.minestom.server.MinecraftServer;
@@ -23,6 +24,7 @@ public class MatchInvincibilityTimer {
         Scheduler scheduler = MinecraftServer.getSchedulerManager();
         scheduler.submitTask(() -> {
             REMAINING_INVINCIBILITY_TIME--;
+            TimeSync.getInstance().setTime(REMAINING_INVINCIBILITY_TIME);
 
             if(announceTimes.contains(REMAINING_INVINCIBILITY_TIME)) {
                 for(Player player : MinecraftServer.getConnectionManager().getOnlinePlayers()) {

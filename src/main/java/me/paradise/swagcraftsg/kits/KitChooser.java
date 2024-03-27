@@ -8,8 +8,6 @@ import me.paradise.swagcraftsg.utils.DisguiseUtil;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.entity.Player;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,14 +49,8 @@ public class KitChooser {
 
         SwagCraftKit playerKit = this.kitMap.get(player.getUuid());
         SwagCraftPlayableKit kit = this.kitImpls.get(playerKit);
-        Class kitClass = kit.getClass();
 
-        try {
-            Method applyEffects = kitClass.getMethod("applyPregameEffects", Player.class);
-            applyEffects.invoke(kit, player);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-            // pass
-        }
+        kit.applyPregameEffects(player);
     }
 
     public void initKits() {
@@ -82,6 +74,12 @@ public class KitChooser {
         this.kitImpls.put(SwagCraftKit.IRONMAN, new IronmanImpl(this.kitAbilityCooldown));
         this.kitImpls.put(SwagCraftKit.SC_ARCHER, new SCArcherImpl());
         this.kitImpls.put(SwagCraftKit.MAGE, new MageKitImpl());
+        this.kitImpls.put(SwagCraftKit.ZOMBIE, new ZombieImpl());
+        this.kitImpls.put(SwagCraftKit.THOR, new ThorImpl());
+        this.kitImpls.put(SwagCraftKit.PYRO, new PyroImpl());
+        this.kitImpls.put(SwagCraftKit.SCRAPPER, new ScrapperImpl());
+        this.kitImpls.put(SwagCraftKit.SUPERMAN, new SupermanImpl());
+        this.kitImpls.put(SwagCraftKit.MINER, new MinerKitImpl());
 
         for(Player player : MinecraftServer.getConnectionManager().getOnlinePlayers()) {
             System.out.println("Initializing kit for player " + player.getUsername());
@@ -108,6 +106,12 @@ public class KitChooser {
         }
 
         combatLogListener.register();
+    }
+
+    public void applyInGameKits() {
+        for(SwagCraftPlayableKit kit : this.kitImpls.values()) {
+            kit.registerInGameListeners();
+        }
     }
 
     public boolean hasKit(Player player, SwagCraftKit kit) {

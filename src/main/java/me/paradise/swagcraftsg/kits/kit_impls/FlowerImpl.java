@@ -4,16 +4,12 @@ import me.paradise.swagcraftsg.kits.SwagCraftKit;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.entity.Player;
 import net.minestom.server.item.ItemStack;
-import net.minestom.server.item.Material;
 import net.minestom.server.timer.TaskSchedule;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class FlowerImpl implements SwagCraftPlayableKit {
-    private List<ItemStack> items = new ArrayList<>();
+public class FlowerImpl extends BasePlayableKit {
 
     public FlowerImpl() {
+        this.registerNode();
     }
 
     @Override
@@ -35,13 +31,6 @@ public class FlowerImpl implements SwagCraftPlayableKit {
 
             return TaskSchedule.seconds(5);
         });
-    }
-
-    @Override
-    public void giveInventory(Player player) {
-        for(ItemStack item : this.items) {
-            player.getInventory().addItemStack(item);
-        }
     }
 
     @Override

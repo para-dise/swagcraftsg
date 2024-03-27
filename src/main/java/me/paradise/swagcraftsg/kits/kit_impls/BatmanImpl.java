@@ -1,6 +1,5 @@
 package me.paradise.swagcraftsg.kits.kit_impls;
 
-import io.github.bloepiloepi.pvp.events.FinalAttackEvent;
 import io.github.bloepiloepi.pvp.events.ProjectileHitEvent;
 import me.paradise.swagcraftsg.events.GamePhaseChangeEvent;
 import me.paradise.swagcraftsg.kits.KitChooser;
@@ -12,7 +11,6 @@ import net.minestom.server.MinecraftServer;
 import net.minestom.server.entity.EntityType;
 import net.minestom.server.entity.Player;
 import net.minestom.server.entity.damage.Damage;
-import net.minestom.server.entity.damage.DamageType;
 import net.minestom.server.event.Event;
 import net.minestom.server.event.EventNode;
 import net.minestom.server.event.player.PlayerChangeHeldSlotEvent;
@@ -23,18 +21,15 @@ import net.minestom.server.item.Material;
 import net.minestom.server.potion.Potion;
 import net.minestom.server.potion.PotionEffect;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class BatmanImpl implements SwagCraftPlayableKit {
-    private List<ItemStack> items = new ArrayList<>();
-
+public class BatmanImpl extends BasePlayableKit {
     public BatmanImpl() {
         this.items.add(ItemStack.of(Material.STONE_SWORD));
         this.items.add(ItemStack.of(Material.BREAD, (byte) 3));
 
         this.items.add(ItemStack.of(Material.BOW));
         this.items.add(ItemStack.of(Material.ARROW, (byte) 16));
+
+        this.registerNode();
     }
 
     @Override
@@ -87,16 +82,8 @@ public class BatmanImpl implements SwagCraftPlayableKit {
     }
 
     @Override
-    public void giveInventory(Player player) {
-        for(ItemStack item : this.items) {
-            player.getInventory().addItemStack(item);
-        }
-    }
-
-    @Override
     public void registerGlobalListeners() {
-        EventNode<Event> batmanGlobalNode = EventNode.all("batman-global");
-        batmanGlobalNode.addListener(PlayerChangeHeldSlotEvent.class, event -> {
+        this.globalNode.addListener(PlayerChangeHeldSlotEvent.class, event -> {
             // TODO: This gets called twice...
             if(KitChooser.getInstance().getCombatLogListener().getCombatLogManager().isInCombat(event.getPlayer())) {
                 // if the attacker is a batman, we cancel the event
@@ -108,12 +95,11 @@ public class BatmanImpl implements SwagCraftPlayableKit {
                 }
             }
         });
-
-        MinecraftServer.getGlobalEventHandler().addChild(batmanGlobalNode);
     }
 
+    @Override
     public void applyPregameEffects(Player player) {
-        Potion invisibilityPotion = new Potion(PotionEffect.INVISIBILITY, (byte) 0, 9999999);
+        Potion invisibilityPotion = new Potion(PotionEffect.INVISIBILITY, (byte) 0, Potion.INFINITE_DURATION);
         player.addEffect(invisibilityPotion);
     }
 }

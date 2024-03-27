@@ -2,28 +2,37 @@ package me.paradise.swagcraftsg;
 
 import io.github.bloepiloepi.pvp.PvpExtension;
 import io.github.bloepiloepi.pvp.explosion.PvpExplosionSupplier;
+import lombok.Getter;
 import me.paradise.swagcraftsg.commands.CommandManager;
 import me.paradise.swagcraftsg.map.SwagCraftMap;
+import me.paradise.swagcraftsg.map.gson.MapData;
 import me.paradise.swagcraftsg.match.GamePhase;
 import me.paradise.swagcraftsg.match.Match;
 import me.paradise.swagcraftsg.scoreboard.ScoreboardDisplay;
+import me.paradise.swagcraftsg.utils.LookUtil;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.coordinate.Pos;
+import net.minestom.server.coordinate.Vec;
 import net.minestom.server.entity.GameMode;
 import net.minestom.server.entity.ItemEntity;
 import net.minestom.server.entity.Player;
 import net.minestom.server.event.GlobalEventHandler;
 import net.minestom.server.event.player.AsyncPlayerConfigurationEvent;
 import net.minestom.server.event.player.PlayerSpawnEvent;
-import net.minestom.server.instance.*;
+import net.minestom.server.instance.Instance;
+import net.minestom.server.instance.InstanceContainer;
+import net.minestom.server.instance.InstanceManager;
 import net.minestom.server.instance.block.Block;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
 import net.minestom.server.utils.time.TimeUnit;
 
+import java.util.List;
+
 public class SwagCraftSG {
     public static Instance MAIN_INSTANCE;
     public static boolean DEBUG = true;
+    public static SwagCraftMap MAP_MANAGER = new SwagCraftMap();
 
     public static void main(String[] args) {
         // Initialization
@@ -31,8 +40,7 @@ public class SwagCraftSG {
         InstanceManager instanceManager = MinecraftServer.getInstanceManager();
 
         // Create Map Manager
-        SwagCraftMap mapManager = new SwagCraftMap();
-        Instance lobby = mapManager.getMapInstance();
+        Instance lobby = MAP_MANAGER.getMapInstance();
         lobby.setExplosionSupplier(PvpExplosionSupplier.INSTANCE);
 
         MAIN_INSTANCE = lobby; // Set the main instance
@@ -53,7 +61,7 @@ public class SwagCraftSG {
 
             event.setSpawningInstance(MAIN_INSTANCE);
             //event.setSpawningInstance(instanceContainer);
-            player.setRespawnPoint(mapManager.getSpawnPoint(player.getUuid()));
+            player.setRespawnPoint(MAP_MANAGER.getSpawnPoint(player.getUuid()));
         });
         // Enable PVP
         PvpExtension.init();
@@ -78,6 +86,10 @@ public class SwagCraftSG {
             itemEntity.setInstance(SwagCraftSG.MAIN_INSTANCE);
             itemEntity.spawn();
             itemEntity.teleport(player.getPosition());
+
+            // Look at center
+            Vec center = MAP_MANAGER.getCenter();
+            player.teleport(LookUtil.lookAt(player.getPosition(), new Pos(center.x(), center.y(), center.z())));
         });
     }
 }

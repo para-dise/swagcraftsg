@@ -5,6 +5,7 @@ import lombok.Setter;
 import me.paradise.swagcraftsg.SwagCraftSG;
 import me.paradise.swagcraftsg.commands.CommandManager;
 import me.paradise.swagcraftsg.commands.cmds.ForceStart;
+import me.paradise.swagcraftsg.utils.TimeSync;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.minestom.server.MinecraftServer;
@@ -29,6 +30,9 @@ public class MatchStarter {
         Scheduler scheduler = MinecraftServer.getSchedulerManager();
         scheduler.submitTask(() -> {
             time--;
+
+            TimeSync.getInstance().setTime(time);
+
             if(displayTimes.contains(time)) {
                 for(Player player : MinecraftServer.getConnectionManager().getOnlinePlayers()) {
                     player.sendMessage(Component.text("The game will start in " + time + " seconds", NamedTextColor.RED));
@@ -48,7 +52,7 @@ public class MatchStarter {
                     this.time = 61;
 
                     if(SwagCraftSG.DEBUG) {
-                        this.gameMatch.populateLobby(2);
+                        this.gameMatch.populateLobby(23);
                         this.time = 6;
                     }
 

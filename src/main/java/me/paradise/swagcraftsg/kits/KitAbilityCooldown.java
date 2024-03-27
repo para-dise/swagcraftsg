@@ -8,6 +8,14 @@ import java.util.UUID;
 
 public class KitAbilityCooldown {
     private HashMap<UUID, Date> cooldownMap = new HashMap<>();
+    private static int DEFAULT_COOLDOWN = 10000;
+
+    public KitAbilityCooldown() {
+    }
+
+    public KitAbilityCooldown(int cooldown) {
+        DEFAULT_COOLDOWN = cooldown;
+    }
 
     public boolean isOnCooldown(UUID uuid) {
         if(cooldownMap.containsKey(uuid)) {
@@ -28,7 +36,7 @@ public class KitAbilityCooldown {
     public int getRemainingCooldown(Player player) {
         if(cooldownMap.containsKey(player.getUuid())) {
             Date date = cooldownMap.get(player.getUuid());
-            int cdTime =  (int) (10000 - (new Date().getTime() - date.getTime()));
+            int cdTime =  (int) (DEFAULT_COOLDOWN - (new Date().getTime() - date.getTime()));
             return cdTime / 1000;
         }
         return 0;

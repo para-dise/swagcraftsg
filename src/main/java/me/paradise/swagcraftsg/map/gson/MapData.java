@@ -4,9 +4,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-import com.google.gson.annotations.SerializedName;
-import net.minestom.server.coordinate.Pos;
-
 public class MapData {
     @SerializedName("games")
     private List<Game> games;
@@ -32,6 +29,9 @@ public class MapData {
         @SerializedName("spawnPoints")
         private List<SpawnPoint> spawnPoints;
 
+        @SerializedName("center")
+        private SpawnPoint center;
+
         public String getName() {
             return name;
         }
@@ -43,28 +43,45 @@ public class MapData {
         public List<SpawnPoint> getSpawnPoints() {
             return spawnPoints;
         }
+
+        public SpawnPoint getCenter() {
+            return center;
+        }
     }
 
-    public class SpawnPoint {
+    public static class SpawnPoint {
         @SerializedName("x")
-        private int x;
+        private double x;
 
         @SerializedName("y")
-        private int y;
+        private double y;
 
         @SerializedName("z")
-        private int z;
+        private double z;
 
-        public int getX() {
+        public double getX() {
             return x;
         }
 
-        public int getY() {
+        public double getY() {
             return y;
         }
 
-        public int getZ() {
+        public double getZ() {
             return z;
+        }
+
+        // Setter methods
+        public void setX(double x) {
+            this.x = x;
+        }
+
+        public void setY(double y) {
+            this.y = y;
+        }
+
+        public void setZ(double z) {
+            this.z = z;
         }
     }
 }

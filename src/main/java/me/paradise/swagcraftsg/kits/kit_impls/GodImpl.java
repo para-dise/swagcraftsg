@@ -6,12 +6,7 @@ import net.minestom.server.item.Enchantment;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class GodImpl implements SwagCraftPlayableKit {
-    private List<ItemStack> items = new ArrayList<>();
-
+public class GodImpl extends BasePlayableKit {
     public GodImpl() {
         ItemStack sword = ItemStack.builder(Material.DIAMOND_SWORD).meta(metaBuilder -> {
             metaBuilder.enchantment(Enchantment.SMITE, (byte) 1);
@@ -32,6 +27,8 @@ public class GodImpl implements SwagCraftPlayableKit {
         this.items.add(bow);
 
         this.items.add(ItemStack.of(Material.ARROW));
+
+        this.registerNode();
     }
 
     @Override
@@ -51,9 +48,7 @@ public class GodImpl implements SwagCraftPlayableKit {
 
     @Override
     public void giveInventory(Player player) {
-        for(ItemStack item : this.items) {
-            player.getInventory().addItemStack(item);
-        }
+        super.giveInventory(player);
 
         player.setHelmet(this.godEnchant(Material.DIAMOND_HELMET));
         player.setChestplate(this.godEnchant(Material.DIAMOND_CHESTPLATE));

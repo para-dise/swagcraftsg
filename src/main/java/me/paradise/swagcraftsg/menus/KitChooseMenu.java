@@ -12,40 +12,42 @@ import net.minestom.server.inventory.Inventory;
 import net.minestom.server.inventory.InventoryType;
 import net.minestom.server.item.ItemStack;
 
-import java.util.Set;
+import java.util.LinkedHashSet;
 
 public class KitChooseMenu {
     @Getter @Setter
     Inventory inventory;
-    private final Set<MenuItem> items = Set.of(
-            new Default(),
-            new Trapper(),
-            new Fisherman(),
-            new Miner(),
-            new Barbarian(),
-            new Creeper(),
-            new Salamander(),
-            new Butcher(),
-            new Flower(),
-            new Ghost(),
-            new Miser(),
-            new Batman(),
-            new Ironman(),
-            new Superman(),
-            new Hulk(),
-            new God(),
-            new SpiderMan(),
-            new Archer(),
-            new Scrapper(),
-            new Pyro(),
-            new Brute(),
-            new Thor(),
-            new Zombie(),
-            new Alchemist(),
-            new Mage(),
-            new SCArcher(),
-            new Assassin()
-    );
+    private final LinkedHashSet<MenuItem> items = new LinkedHashSet<MenuItem>() {
+        {
+            add(new Default());
+            add(new Trapper());
+            add(new Fisherman());
+            add(new Miner());
+            add(new Barbarian());
+            add(new Creeper());
+            add(new Salamander());
+            add(new Butcher());
+            add(new Flower());
+            add(new Ghost());
+            add(new Miser());
+            add(new Batman());
+            add(new Ironman());
+            add(new Superman());
+            add(new Hulk());
+            add(new God());
+            add(new SpiderMan());
+            add(new Archer());
+            add(new Scrapper());
+            add(new Pyro());
+            add(new Brute());
+            add(new Thor());
+            add(new Zombie());
+            add(new Alchemist());
+            add(new Mage());
+            add(new SCArcher());
+            add(new Assassin());
+        }
+    };
 
     public KitChooseMenu() {
         this.inventory = new Inventory(InventoryType.CHEST_3_ROW, Component.text("Choose a kit", NamedTextColor.LIGHT_PURPLE));

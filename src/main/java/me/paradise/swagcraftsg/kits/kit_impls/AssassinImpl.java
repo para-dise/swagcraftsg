@@ -10,7 +10,6 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.entity.EntityType;
 import net.minestom.server.entity.Player;
-import net.minestom.server.entity.damage.DamageType;
 import net.minestom.server.event.Event;
 import net.minestom.server.event.EventNode;
 import net.minestom.server.event.player.PlayerUseItemEvent;
@@ -20,13 +19,7 @@ import net.minestom.server.item.Material;
 import net.minestom.server.potion.Potion;
 import net.minestom.server.potion.PotionEffect;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-public class AssassinImpl implements SwagCraftPlayableKit {
-    private List<ItemStack> items = new ArrayList<>();
-
+public class AssassinImpl extends BasePlayableKit {
     public AssassinImpl() {
         // 1 golden enchanted sword (Smite 1, Sharpness 5)
         ItemStack sword = ItemStack.builder(Material.GOLDEN_SWORD).meta(metaBuilder -> {
@@ -55,7 +48,7 @@ public class AssassinImpl implements SwagCraftPlayableKit {
         ItemStack porkchops = ItemStack.of(Material.PORKCHOP, 5);
         items.add(porkchops);
 
-
+        this.registerNode();
     }
 
     @Override
@@ -111,22 +104,12 @@ public class AssassinImpl implements SwagCraftPlayableKit {
 
         });
 
-
         MinecraftServer.getGlobalEventHandler().addChild(assassinPlayerNode);
     }
 
     @Override
-    public void giveInventory(Player player) {
-        for(ItemStack item : this.items) {
-            player.getInventory().addItemStack(item);
-        }
-    }
-
-    @Override
     public void registerGlobalListeners() {
-        EventNode<Event> assassinGlobalNode = EventNode.all("assassin-global-listener");
-
-        assassinGlobalNode.addListener(ProjectileHitEvent.ProjectileEntityHitEvent.class, event -> {
+        this.globalNode.addListener(ProjectileHitEvent.ProjectileEntityHitEvent.class, event -> {
             if(!(event.getHitEntity() instanceof Player)) {
                 return;
             }
@@ -147,7 +130,7 @@ public class AssassinImpl implements SwagCraftPlayableKit {
             }
         });
 
-        assassinGlobalNode.addListener(FinalDamageEvent.class, event -> {
+        this.globalNode.addListener(FinalDamageEvent.class, event -> {
             if(!(event.getEntity() instanceof Player)) return;
             Player eventPlayer = (Player) event.getEntity();
 
@@ -158,7 +141,5 @@ public class AssassinImpl implements SwagCraftPlayableKit {
                 event.setDamage(2);
             }
         });
-
-        MinecraftServer.getGlobalEventHandler().addChild(assassinGlobalNode);
     }
 }

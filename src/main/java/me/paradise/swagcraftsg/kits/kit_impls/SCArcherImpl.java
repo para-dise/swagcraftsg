@@ -6,20 +6,12 @@ import me.paradise.swagcraftsg.kits.SwagCraftKit;
 import me.paradise.swagcraftsg.match.GamePhase;
 import me.paradise.swagcraftsg.match.Match;
 import me.paradise.swagcraftsg.utils.ExplosionUtil;
-import net.minestom.server.MinecraftServer;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.entity.Player;
-import net.minestom.server.event.Event;
-import net.minestom.server.event.EventNode;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class SCArcherImpl implements SwagCraftPlayableKit {
-    private List<ItemStack> items = new ArrayList<>();
-
+public class SCArcherImpl extends BasePlayableKit {
     public SCArcherImpl() {
         this.items.add(ItemStack.of(Material.BOW, (byte) 1));
         this.items.add(ItemStack.of(Material.ARROW, (byte) 24));
@@ -27,6 +19,8 @@ public class SCArcherImpl implements SwagCraftPlayableKit {
         this.items.add(ItemStack.of(Material.ENDER_PEARL, (byte) 5));
         this.items.add(ItemStack.of(Material.COOKED_PORKCHOP, (byte) 5));
         this.items.add(ItemStack.of(Material.ENCHANTED_GOLDEN_APPLE, (byte) 1));
+
+        this.registerNode();
     }
 
     @Override
@@ -41,9 +35,7 @@ public class SCArcherImpl implements SwagCraftPlayableKit {
 
     @Override
     public void registerListeners(Player player) {
-        EventNode<Event> scarcherGlobalNode = EventNode.all("scarcher-global-listener");
-        System.out.println("registered scarcher global node");
-        scarcherGlobalNode.addListener(ProjectileHitEvent.ProjectileBlockHitEvent.class, event -> {
+        this.globalNode.addListener(ProjectileHitEvent.ProjectileBlockHitEvent.class, event -> {
             if(!(event.getEntity().getShooter() instanceof Player)) {
                 return;
             }
@@ -62,15 +54,6 @@ public class SCArcherImpl implements SwagCraftPlayableKit {
                 //event.getEntity().getInstance().explode((float) pos.x(), (float) pos.y(), (float) pos.z(), 3.0f);
             }
         });
-
-        MinecraftServer.getGlobalEventHandler().addChild(scarcherGlobalNode);
-    }
-
-    @Override
-    public void giveInventory(Player player) {
-        for(ItemStack item : this.items) {
-            player.getInventory().addItemStack(item);
-        }
     }
 
     @Override

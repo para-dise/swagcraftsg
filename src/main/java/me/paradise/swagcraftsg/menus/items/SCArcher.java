@@ -1,7 +1,6 @@
 package me.paradise.swagcraftsg.menus.items;
 
 import me.paradise.swagcraftsg.kits.SwagCraftKit;
-import me.paradise.swagcraftsg.menus.KitChooseMenu;
 import me.paradise.swagcraftsg.menus.MenuItem;
 import me.paradise.swagcraftsg.menus.MenuItemHolder;
 import net.kyori.adventure.text.Component;

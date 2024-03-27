@@ -6,7 +6,10 @@ import me.paradise.swagcraftsg.menus.MenuItemHolder;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.minestom.server.item.*;
+import net.minestom.server.item.Enchantment;
+import net.minestom.server.item.ItemHideFlag;
+import net.minestom.server.item.ItemStack;
+import net.minestom.server.item.Material;
 
 import java.util.ArrayList;
 import java.util.List;

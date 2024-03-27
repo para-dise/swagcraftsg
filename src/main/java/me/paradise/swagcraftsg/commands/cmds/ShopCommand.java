@@ -3,7 +3,6 @@ package me.paradise.swagcraftsg.commands.cmds;
 import me.paradise.swagcraftsg.shop.Shop;
 import net.minestom.server.command.builder.Command;
 import net.minestom.server.entity.Player;
-import net.minestom.server.inventory.Inventory;
 
 public class ShopCommand extends Command {
     private final Shop shop = new Shop();

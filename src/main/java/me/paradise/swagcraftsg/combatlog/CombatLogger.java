@@ -4,7 +4,6 @@ import lombok.Getter;
 import net.minestom.server.entity.Player;
 
 import java.util.Date;
-import java.util.UUID;
 
 public class CombatLogger {
 

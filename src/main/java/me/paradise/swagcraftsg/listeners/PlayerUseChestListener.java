@@ -7,7 +7,7 @@ import net.minestom.server.event.player.PlayerBlockInteractEvent;
 import net.minestom.server.instance.block.Block;
 
 public class PlayerUseChestListener {
-    private final ChestManager chestManager = new ChestManager();
+    private final ChestManager chestManager = ChestManager.getInstance();
 
     public PlayerUseChestListener() {
         GlobalEventHandler globalEventHandler = MinecraftServer.getGlobalEventHandler();

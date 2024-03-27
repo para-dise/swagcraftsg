@@ -5,15 +5,10 @@ import io.github.bloepiloepi.pvp.events.ProjectileHitEvent;
 import lombok.Getter;
 import me.paradise.swagcraftsg.combatlog.CombatLogManager;
 import me.paradise.swagcraftsg.combatlog.SimpleCombatLogManager;
-import net.kyori.adventure.sound.Sound;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.entity.Player;
 import net.minestom.server.event.Event;
 import net.minestom.server.event.EventNode;
-import net.minestom.server.network.packet.server.play.EntityAnimationPacket;
-import net.minestom.server.network.packet.server.play.HitAnimationPacket;
-import net.minestom.server.network.packet.server.play.SoundEffectPacket;
-import net.minestom.server.sound.SoundEvent;
 
 import java.util.List;
 

@@ -2,7 +2,6 @@ package me.paradise.swagcraftsg.shop;
 
 import com.google.gson.Gson;
 import lombok.Getter;
-import me.paradise.swagcraftsg.chest.gson.LootData;
 import me.paradise.swagcraftsg.shop.gson.ShopData;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;

@@ -1,13 +1,12 @@
 package me.paradise.swagcraftsg.commands.cmds;
 
-import me.paradise.swagcraftsg.match.GamePhase;
-import me.paradise.swagcraftsg.match.Match;
 import me.paradise.swagcraftsg.menus.KitChooseMenu;
 import net.minestom.server.command.builder.Command;
 import net.minestom.server.entity.GameMode;
 import net.minestom.server.entity.Player;
 
 public class KitCommand extends Command {
+    private final KitChooseMenu menu = new KitChooseMenu();
     public KitCommand() {
         super("kit");
         setDefaultExecutor((sender, context) -> {
@@ -22,7 +21,6 @@ public class KitCommand extends Command {
                 return;
             }
 
-            KitChooseMenu menu = new KitChooseMenu();
             player.openInventory(menu.getInventory());
         });
     }

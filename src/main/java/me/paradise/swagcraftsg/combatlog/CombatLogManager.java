@@ -2,9 +2,10 @@ package me.paradise.swagcraftsg.combatlog;
 
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.entity.Player;
-import net.minestom.server.network.player.PlayerConnection;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class CombatLogManager {
     private List<CombatLogger> combatLoggers = new ArrayList<>();

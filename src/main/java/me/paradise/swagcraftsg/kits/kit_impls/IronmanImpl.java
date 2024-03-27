@@ -1,34 +1,28 @@
 package me.paradise.swagcraftsg.kits.kit_impls;
 
 import io.github.bloepiloepi.pvp.events.FinalAttackEvent;
-import io.github.bloepiloepi.pvp.events.FinalDamageEvent;
 import me.paradise.swagcraftsg.kits.KitAbilityCooldown;
 import me.paradise.swagcraftsg.kits.KitChooser;
 import me.paradise.swagcraftsg.kits.SwagCraftKit;
 import me.paradise.swagcraftsg.utils.NearbyUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.minestom.server.MinecraftServer;
 import net.minestom.server.entity.Player;
-import net.minestom.server.event.Event;
-import net.minestom.server.event.EventNode;
-import net.minestom.server.event.GlobalEventHandler;
 import net.minestom.server.event.player.PlayerBlockInteractEvent;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
 import net.minestom.server.potion.Potion;
 import net.minestom.server.potion.PotionEffect;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class IronmanImpl implements SwagCraftPlayableKit {
-    private List<ItemStack> items = new ArrayList<>();
-    private KitAbilityCooldown kitAbilityCooldown;
+public class IronmanImpl extends BasePlayableKit {
 
     public IronmanImpl(KitAbilityCooldown kitAbilityCooldown) {
         this.items.add(ItemStack.of(Material.BREAD, (byte) 3));
         this.kitAbilityCooldown = kitAbilityCooldown;
+
+        this.registerNode();
     }
 
     @Override
@@ -38,8 +32,8 @@ public class IronmanImpl implements SwagCraftPlayableKit {
 
     @Override
     public void applyEffects(Player player) {
-        Potion jumpPotion = new Potion(PotionEffect.JUMP_BOOST, (byte) 0, 9999999);
-        Potion speedPotion = new Potion(PotionEffect.SPEED, (byte) 0, 9999999);
+        Potion jumpPotion = new Potion(PotionEffect.JUMP_BOOST, (byte) 0, Potion.INFINITE_DURATION);
+        Potion speedPotion = new Potion(PotionEffect.SPEED, (byte) 0, Potion.INFINITE_DURATION);
 
         player.addEffect(jumpPotion);
         player.addEffect(speedPotion);
@@ -51,16 +45,8 @@ public class IronmanImpl implements SwagCraftPlayableKit {
     }
 
     @Override
-    public void giveInventory(Player player) {
-        for(ItemStack item : this.items) {
-            player.getInventory().addItemStack(item);
-        }
-    }
-
-    @Override
     public void registerGlobalListeners() {
-        EventNode<Event> globalNode = EventNode.all("ironman-global");
-        globalNode.addListener(FinalAttackEvent.class, event -> {
+        this.globalNode.addListener(FinalAttackEvent.class, event -> {
            if(!(event.getEntity() instanceof Player)) {
                return;
            }
@@ -77,7 +63,7 @@ public class IronmanImpl implements SwagCraftPlayableKit {
         });
 
         // 48 blocks is the Minecraft audible range
-        globalNode.addListener(PlayerBlockInteractEvent.class, event -> {
+        this.globalNode.addListener(PlayerBlockInteractEvent.class, event -> {
             if(!(event.getEntity() instanceof Player)) {
                 return;
             }
@@ -103,8 +89,5 @@ public class IronmanImpl implements SwagCraftPlayableKit {
         });
 
         // TODO: Scramble compasses
-
-        MinecraftServer.getGlobalEventHandler().addChild(globalNode);
-
     }
 }

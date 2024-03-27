@@ -1,7 +1,5 @@
 package me.paradise.swagcraftsg.kits.kit_impls;
 
-import io.github.bloepiloepi.pvp.events.ProjectileHitEvent;
-import io.github.bloepiloepi.pvp.projectile.CustomEntityProjectile;
 import me.paradise.swagcraftsg.kits.KitChooser;
 import me.paradise.swagcraftsg.kits.SwagCraftKit;
 import me.paradise.swagcraftsg.utils.ConsumeUtil;
@@ -10,37 +8,30 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.coordinate.Point;
-import net.minestom.server.coordinate.Pos;
 import net.minestom.server.entity.Player;
-import net.minestom.server.event.Event;
-import net.minestom.server.event.EventFilter;
-import net.minestom.server.event.EventNode;
 import net.minestom.server.event.player.PlayerBlockBreakEvent;
 import net.minestom.server.event.player.PlayerUseItemEvent;
-import net.minestom.server.event.trait.PlayerEvent;
 import net.minestom.server.instance.Instance;
 import net.minestom.server.instance.block.Block;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
 import net.minestom.server.potion.Potion;
 import net.minestom.server.potion.PotionEffect;
-import net.minestom.server.potion.PotionType;
 import net.minestom.server.potion.TimedPotion;
 import net.minestom.server.timer.Scheduler;
 import net.minestom.server.timer.TaskSchedule;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class BruteImpl implements SwagCraftPlayableKit {
-    private List<ItemStack> items = new ArrayList<>();
-
+public class BruteImpl extends BasePlayableKit {
     public BruteImpl() {
         ItemStack cookies = ItemStack.of(Material.COOKIE, 5);
         this.items.add(cookies);
 
         ItemStack porkchops = ItemStack.of(Material.COOKED_PORKCHOP, 4);
         this.items.add(porkchops);
+
+        this.registerNode();
     }
 
     @Override
@@ -50,7 +41,7 @@ public class BruteImpl implements SwagCraftPlayableKit {
 
     @Override
     public void applyEffects(Player player) {
-        Potion slowness = new Potion(PotionEffect.SLOWNESS, (byte) 0, 9999999);
+        Potion slowness = new Potion(PotionEffect.SLOWNESS, (byte) 0, Potion.INFINITE_DURATION);
         player.addEffect(slowness);
     }
 
@@ -61,9 +52,7 @@ public class BruteImpl implements SwagCraftPlayableKit {
 
     @Override
     public void giveInventory(Player player) {
-        for(ItemStack item : this.items) {
-            player.getInventory().addItemStack(item);
-        }
+        super.giveInventory(player);
 
         player.setBoots(ItemStack.of(Material.IRON_BOOTS));
         player.setLeggings(ItemStack.of(Material.IRON_LEGGINGS));
@@ -73,9 +62,7 @@ public class BruteImpl implements SwagCraftPlayableKit {
 
     @Override
     public void registerGlobalListeners() {
-        EventNode<Event> bruteGlobalNode = EventNode.all("brute-global-listener");
-
-        bruteGlobalNode.addListener(PlayerUseItemEvent.class, event -> {
+        this.globalNode.addListener(PlayerUseItemEvent.class, event -> {
             Player player = event.getPlayer();
             if(KitChooser.getInstance().hasKit(player, this.getKit()) && event.getItemStack().isSimilar(ItemStack.of(Material.COOKIE))) {
                 Potion strength = new Potion(PotionEffect.STRENGTH, (byte) 1, 300);
@@ -87,7 +74,7 @@ public class BruteImpl implements SwagCraftPlayableKit {
             }
         });
 
-        bruteGlobalNode.addListener(PlayerBlockBreakEvent.class, event -> {
+        this.globalNode.addListener(PlayerBlockBreakEvent.class, event -> {
            if(KitChooser.getInstance().hasKit(event.getPlayer(), this.getKit())) {
                if(WoodUtil.isWood(event.getBlock())) {
                    this.breakTree(event.getBlockPosition(), event.getInstance(), 0);
@@ -113,15 +100,13 @@ public class BruteImpl implements SwagCraftPlayableKit {
                 }
 
                 if(!hasSlowness) {
-                    Potion slowness = new Potion(PotionEffect.SLOWNESS, (byte) 0, 9999999);
+                    Potion slowness = new Potion(PotionEffect.SLOWNESS, (byte) 0, Potion.INFINITE_DURATION);
                     player.addEffect(slowness);
                 }
             }
 
             return TaskSchedule.seconds(5);
         });
-
-        MinecraftServer.getGlobalEventHandler().addChild(bruteGlobalNode);
     }
 
     private void breakTree(Point pos, Instance instance, int depth) {

@@ -8,30 +8,23 @@ import me.paradise.swagcraftsg.kits.SwagCraftKit;
 import me.paradise.swagcraftsg.utils.NearbyUtil;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.minestom.server.MinecraftServer;
 import net.minestom.server.entity.Player;
 import net.minestom.server.entity.damage.DamageType;
-import net.minestom.server.event.Event;
-import net.minestom.server.event.EventNode;
-import net.minestom.server.event.player.PlayerBlockBreakEvent;
-import net.minestom.server.event.player.PlayerBlockInteractEvent;
 import net.minestom.server.event.player.PlayerStartDiggingEvent;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
 import net.minestom.server.potion.Potion;
 import net.minestom.server.potion.PotionEffect;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class HulkImpl implements SwagCraftPlayableKit {
-    private List<ItemStack> items = new ArrayList<>();
-    private KitAbilityCooldown kitAbilityCooldown;
+public class HulkImpl extends BasePlayableKit {
 
     public HulkImpl(KitAbilityCooldown kitAbilityCooldown) {
         this.kitAbilityCooldown = kitAbilityCooldown;
 
         this.items.add(ItemStack.of(Material.DIRT, (byte) 64));
+        this.registerNode();
     }
 
     @Override
@@ -41,8 +34,8 @@ public class HulkImpl implements SwagCraftPlayableKit {
 
     @Override
     public void applyEffects(Player player) {
-        Potion strengthPot = new Potion(PotionEffect.STRENGTH, (byte) 0, 999999);
-        Potion jumpPot = new Potion(PotionEffect.JUMP_BOOST, (byte) 0, 999999);
+        Potion strengthPot = new Potion(PotionEffect.STRENGTH, (byte) 0, Potion.INFINITE_DURATION);
+        Potion jumpPot = new Potion(PotionEffect.JUMP_BOOST, (byte) 0, Potion.INFINITE_DURATION);
 
         player.addEffect(strengthPot);
         player.addEffect(jumpPot);
@@ -54,16 +47,8 @@ public class HulkImpl implements SwagCraftPlayableKit {
     }
 
     @Override
-    public void giveInventory(Player player) {
-        for(ItemStack item : this.items) {
-            player.getInventory().addItemStack(item);
-        }
-    }
-
-    @Override
     public void registerGlobalListeners() {
-        EventNode<Event> globalNode = EventNode.all("hulk-global-listener");
-        globalNode.addListener(FinalDamageEvent.class, event -> {
+        this.globalNode.addListener(FinalDamageEvent.class, event -> {
             if(!(event.getEntity() instanceof Player)) return;
             Player eventPlayer = (Player) event.getEntity();
 
@@ -80,7 +65,7 @@ public class HulkImpl implements SwagCraftPlayableKit {
             }
         });
 
-        globalNode.addListener(PlayerStartDiggingEvent.class, event -> {
+        this.globalNode.addListener(PlayerStartDiggingEvent.class, event -> {
             Player player = event.getPlayer();
 
             if(!KitChooser.getInstance().hasKit(player, this.getKit())) return;
@@ -100,7 +85,5 @@ public class HulkImpl implements SwagCraftPlayableKit {
         });
 
         // TODO: Add food regeneration
-
-        MinecraftServer.getGlobalEventHandler().addChild(globalNode);
     }
 }

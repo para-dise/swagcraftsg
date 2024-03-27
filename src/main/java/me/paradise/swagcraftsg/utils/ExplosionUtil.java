@@ -2,20 +2,14 @@ package me.paradise.swagcraftsg.utils;
 
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
-import net.minestom.server.coordinate.Point;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.entity.Entity;
 import net.minestom.server.entity.Player;
-import net.minestom.server.entity.damage.Damage;
 import net.minestom.server.entity.damage.DamageType;
 import net.minestom.server.instance.Instance;
 import net.minestom.server.network.packet.server.play.HitAnimationPacket;
 import net.minestom.server.network.packet.server.play.ParticlePacket;
 import net.minestom.server.particle.Particle;
-import net.minestom.server.particle.ParticleCreator;
-
-import java.util.List;
-import java.util.Set;
 
 public class ExplosionUtil {
     public static void explode(float centerX, float centerY, float centerZ, float strength, Instance instance, Entity damager) {
@@ -25,7 +19,8 @@ public class ExplosionUtil {
         Pos pos = new Pos(centerX, centerY + 1, centerZ);
         instance.getNearbyEntities(pos, 60).forEach(entity -> {
             if(entity instanceof Player player) {
-                ParticlePacket particlePacket = ParticleCreator.createParticlePacket(Particle.EXPLOSION_EMITTER, pos.x(), pos.y(), pos.z(), 0f, 0f, 0f, 1);
+                ParticlePacket particlePacket = new ParticlePacket(Particle.EXPLOSION_EMITTER.id(), true, (float) pos.x(), (float) pos.y(), (float) pos.z(), 0, 0, 0, 10, 1, null);
+                //ParticlePacket particlePacket = ParticleCreator.createParticlePacket(Particle.EXPLOSION_EMITTER, pos.x(), pos.y(), pos.z(), 0f, 0f, 0f, 1);
                 player.sendPacket(particlePacket);
 
                 // play explosion sound

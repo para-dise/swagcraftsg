@@ -2,6 +2,7 @@ package me.paradise.swagcraftsg.feature;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.minestom.server.entity.Player;
 import net.minestom.server.item.ItemStack;
 
@@ -10,7 +11,7 @@ public class DeathMessage {
         Component p1Name = player.getDisplayName() == null ? Component.text(player.getUsername(), NamedTextColor.RED) : player.getDisplayName();
         Component p2Name = killer.getDisplayName() == null ? Component.text(killer.getUsername(), NamedTextColor.RED) : killer.getDisplayName();
 
-        return p1Name.append(Component.text(" was killed by ", NamedTextColor.DARK_RED)).append(p2Name).append(Component.text(" using ", NamedTextColor.DARK_RED)).append(normaliseWeaponName(weapon.getMaterial().name()));
+        return p1Name.append(Component.text(" was killed by ", NamedTextColor.DARK_RED).decoration(TextDecoration.BOLD, false)).append(p2Name).append(Component.text(" using ", NamedTextColor.DARK_RED).decoration(TextDecoration.BOLD, false)).append(normaliseWeaponName(weapon.getMaterial().name()));
     }
 
     private static Component normaliseWeaponName(String weaponName) {

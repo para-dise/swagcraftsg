@@ -1,8 +1,9 @@
 package me.paradise.swagcraftsg.chest;
 
 import com.google.gson.Gson;
+import lombok.Getter;
 import me.paradise.swagcraftsg.chest.gson.LootData;
-import me.paradise.swagcraftsg.map.gson.MapData;
+import me.paradise.swagcraftsg.utils.PotionUtil;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;
 import net.minestom.server.MinecraftServer;
@@ -11,7 +12,6 @@ import net.minestom.server.entity.GameMode;
 import net.minestom.server.entity.Player;
 import net.minestom.server.event.GlobalEventHandler;
 import net.minestom.server.event.inventory.InventoryCloseEvent;
-import net.minestom.server.instance.Instance;
 import net.minestom.server.inventory.Inventory;
 import net.minestom.server.inventory.InventoryType;
 import net.minestom.server.item.ItemStack;
@@ -21,11 +21,12 @@ import org.apache.commons.io.IOUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class ChestManager {
+    @Getter
+    private static final ChestManager instance = new ChestManager();
+
     private HashMap<Point, Inventory> chests = new HashMap<>();
     private LootData lootData;
 
@@ -80,6 +81,7 @@ public class ChestManager {
         int numItems = rand.nextInt(5) + 1;
 
         // Populate the chest with the determined number of items
+        List<Integer> slots = chooseUniqueNumbers(numItems);
         for (int i = 0; i < numItems; i++) {
             int selectedTier = weightedRandomTier();
             List<String> lootItems = lootData.getLoot().get(selectedTier);
@@ -87,10 +89,19 @@ public class ChestManager {
             // Select a random loot item from the selected tier
             String selectedLootItem = lootItems.get(rand.nextInt(lootItems.size()));
 
-            // Here, you can use 'selectedLootItem' to create the ItemStack and add it to the inventory
-            // ItemStack itemStack = ...;
-            // inventory.setItemStack(someSlot, itemStack);
-            inventory.addItemStack(ItemStack.of(Material.fromNamespaceId(selectedLootItem), 1));
+            ItemStack chosenItem = ItemStack.of(Material.fromNamespaceId(selectedLootItem), 1);
+            if(chosenItem.getMaterial().equals(Material.SPLASH_POTION)) {
+                chosenItem = PotionUtil.getRandomPotion();
+            }
+
+            if(!lootData.hasMultiple(selectedLootItem)) {
+                inventory.setItemStack(slots.get(i), chosenItem);
+                continue;
+            }
+
+            // select a random number between 1 - 5
+            int stackSize = rand.nextInt(5) + 1;
+            inventory.setItemStack(slots.get(i), chosenItem.withAmount(stackSize));
         }
 
         return inventory;
@@ -100,16 +111,35 @@ public class ChestManager {
         Random rand = new Random();
         int randValue = rand.nextInt(100) + 1;
 
-        if (randValue <= 50) {
+        if (randValue <= 20) {
             return 1;
-        } else if (randValue <= 80) {
+        } else if (randValue <= 40) {
             return 2;
-        } else if (randValue <= 95) {
+        } else if (randValue <= 70) {
             return 3;
-        } else if (randValue <= 100) {
+        } else if (randValue <= 90) {
             return 4;
         } else {
             return 5;
         }
+    }
+
+    public static List<Integer> chooseUniqueNumbers(int n) {
+        if (n > 26) {
+            throw new IllegalArgumentException("Cannot choose more unique numbers than available in the range (0-27)");
+        }
+
+        List<Integer> numbers = new ArrayList<>();
+        for (int i = 0; i < 26; i++) {
+            numbers.add(i);
+        }
+
+        Collections.shuffle(numbers);
+
+        return numbers.subList(0, n);
+    }
+
+    public void resetLoottable() {
+        chests.clear();
     }
 }

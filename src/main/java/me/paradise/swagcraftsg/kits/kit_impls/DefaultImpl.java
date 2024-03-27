@@ -5,14 +5,10 @@ import net.minestom.server.entity.Player;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class DefaultImpl implements SwagCraftPlayableKit {
-    private List<ItemStack> items = new ArrayList<>();
-
+public class DefaultImpl extends BasePlayableKit {
     public DefaultImpl() {
         this.items.add(ItemStack.of(Material.BREAD, (byte) 3));
+        this.registerNode();
     }
 
     @Override
@@ -28,13 +24,6 @@ public class DefaultImpl implements SwagCraftPlayableKit {
     @Override
     public void registerListeners(Player player) {
 
-    }
-
-    @Override
-    public void giveInventory(Player player) {
-        for(ItemStack item : this.items) {
-            player.getInventory().addItemStack(item);
-        }
     }
 
     @Override

@@ -17,9 +17,7 @@ public class GameWinListener {
 
             Scheduler scheduler = MinecraftServer.getSchedulerManager();
             scheduler.submitTask(() -> {
-                MinecraftServer.getConnectionManager().getOnlinePlayers().forEach(player -> {
-                    player.sendMessage(Component.text(winner.getUsername() + " won!", NamedTextColor.RED));
-                });
+                MinecraftServer.getConnectionManager().getOnlinePlayers().forEach(player -> player.sendMessage(Component.text(winner.getUsername() + " won!", NamedTextColor.RED)));
 
                 return TaskSchedule.seconds(1);
             });

@@ -9,4 +9,12 @@ public interface SwagCraftPlayableKit {
     void registerListeners(Player player);
     void giveInventory(Player player);
     void registerGlobalListeners();
+
+    default void registerInGameListeners() {
+        // Default implementation is empty
+    }
+
+    default void applyPregameEffects(Player player) {
+        // Default implementation is empty
+    }
 }

@@ -3,7 +3,10 @@ package me.paradise.swagcraftsg.shop.gson;
 import com.google.gson.*;
 
 import java.lang.reflect.Type;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ShopData {
     private Map<Integer, List<Item>> data;
